@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:18
 
 WORKDIR /app
 
@@ -7,5 +7,6 @@ RUN npm install -g @nestjs/cli && npm install
 
 COPY . .
 
+RUN npx prisma generate
+
 EXPOSE 3001
-CMD ["npm", "run", "start:dev"]

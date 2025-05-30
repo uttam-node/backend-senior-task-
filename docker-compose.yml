@@ -1,6 +1,24 @@
-version: '3.9'
+version: '3.8'
 
 services:
+  backend:
+    build: .
+    container_name: nest-backend
+    ports:
+      - '3001:3001'
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - /app/node_modules
+    working_dir: /app
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/mydb
+      JWT_SECRET: a6b8e4fdf99f37c8e77f65a7db31e4d78e4d0126c5b98d2eb5f4c9db2d205b99
+    command: >
+      sh -c "npx prisma migrate deploy &&
+             npm run start:dev"
+
   postgres:
     image: postgres:14.2
     container_name: postgres
@@ -13,20 +31,6 @@ services:
       POSTGRES_DB: app
     volumes:
       - pgdata:/var/lib/postgresql/data
-
-  backend:
-    container_name: nest-backend
-    build: .
-    ports:
-      - '3001:3001'
-    depends_on:
-      - postgres
-    volumes:
-      - .:/app
-      - /app/node_modules
-    command: npm run start:dev
-    environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/app
 
 volumes:
   pgdata:

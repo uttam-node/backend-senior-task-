@@ -23,11 +23,7 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Post(':postId')
-  create(
-    @Param('postId') postId: string,
-    @Req() req,
-    @Body() dto: CreateCommentDto,
-  ) {
+  create(@Param('postId') postId: string, @Req() req, @Body() dto: CreateCommentDto) {
     return this.service.create(postId, req.user.id, dto);
   }
 
