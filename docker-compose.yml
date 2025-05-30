@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:14.2
+    container_name: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    container_name: nest-backend
+    build: .
+    ports:
+      - '3001:3001'
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run start:dev
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/app
+
+volumes:
+  pgdata:
