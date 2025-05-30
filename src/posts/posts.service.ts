@@ -29,7 +29,7 @@ export class PostsService {
     return {
       total,
       page,
-      posts: posts.map(p => ({
+      posts: posts.map((p) => ({
         id: p.id,
         title: p.title,
         username: p.user?.username,

@@ -28,8 +28,7 @@ export class CommentsService {
       include: { user: true },
     });
 
-    const nextCursor =
-      comments.length === limit ? comments[comments.length - 1].id : null;
+    const nextCursor = comments.length === limit ? comments[comments.length - 1].id : null;
 
     return {
       nextCursor,
